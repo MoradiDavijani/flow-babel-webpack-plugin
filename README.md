@@ -107,6 +107,23 @@ plugins: [
 ],
 ```
 
+##### flowOptions
+You can provide flow status command options.
+
+For example:
+
+```js
+plugins: [
+  new FlowBabelWebpackPlugin({
+    flowOptions: {
+      color: 'auto',
+      'one-line': true,
+      'include-warnings': true,
+    },
+  }),
+],
+```
+
 ---
 
 ### What's next?

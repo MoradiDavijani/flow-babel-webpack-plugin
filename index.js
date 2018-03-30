@@ -6,8 +6,10 @@ var store = {
   error: null,
   flowOptions: [
     'status',
-    '--color=always',
   ],
+  flowStatusOptions: {
+    color: 'always'
+  },
   options: {
     warn: false,
 
@@ -102,7 +104,27 @@ function pushError(compilation) {
 }
 
 
+function normalizeFlowOptions(flowOptions) {
+  return Object.keys(flowOptions)
+               .filter(function(key) {
+                 return flowOptions[key] !== false;
+               })
+               .map(function(key) {
+                 return flowOptions[key] === true ?
+                     `--${key}` :
+                     `--${key}=${flowOptions[key]}`;
+               });
+}
+
+
 function FlowFlowPlugin(options) {
+  if (options && options.flowOptions) {
+    store.flowStatusOptions =
+        merge(store.flowStatusOptions, options.flowOptions);
+    delete options.flowOptions;
+  }
+  store.flowOptions =
+      store.flowOptions.concat(normalizeFlowOptions(store.flowStatusOptions));
   store.options = merge(store.options, options);
 }
 
